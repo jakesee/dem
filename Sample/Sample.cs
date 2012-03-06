@@ -54,7 +54,8 @@ namespace Sample
 
         /// <summary>
         /// Read the file and display header information. For full explanation of the headers,
-        /// please refer to the DEM specification included in the repository
+        /// please refer to the DEM specification included in the repository.
+        /// To get DEM files for testing, visit http://www.geobase.ca/geobase/en/data/cded/index.html
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
