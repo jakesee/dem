@@ -47,7 +47,6 @@ namespace Sample
                     }
                 }
 
-                bitmap.Save("apple.bmp");
                 _mPictureBox.Image = bitmap;
             }
         }
