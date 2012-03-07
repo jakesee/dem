@@ -7,9 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using OpenTK; // Version 1.0-2010-10-06 (6 October, 2010 - 20:42)
-using OpenTK.Graphics.OpenGL;
-
 using USGS.DEM;
 
 namespace Sample
