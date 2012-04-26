@@ -10,9 +10,19 @@ using System.IO;
 
 namespace USGS.DEM
 {
-    public enum GROUND_REF_SYSTEM { Geographic = 0, UTM, State_Plane };
-    public enum GROUND_UNIT { Radian = 0, feet, meters, arc_seconds };
-    public enum ELEVATION_UNIT { feet = 1, meters };
+    public enum GROUND_REF_SYSTEM { Geographic = 0, UTM, StatePlane };
+    public enum GROUND_UNIT { Radian = 0, Feet, Meters, ArcSeconds };
+    public enum ELEVATION_UNIT { Feet = 1, Meters };
+    public enum PROCESS_CODE
+    {
+        AutocorrelationResampleSimpleBilinear = 1,
+        ManualProfileGRIDEMSimpleBilinear = 2,
+        DLGHysographyCTOG8DirectionLinear = 3,
+        DCASS4DirectionLinearInterpolation = 4,
+        DLGHypsographyLINETRACE = 5,
+        DLGHypsographyCPSANUDEMGRASSComplexPolynomial = 5,
+        ElectronicImaging = 6
+    };
 
     public class DemDocument
     {
@@ -45,7 +55,8 @@ namespace USGS.DEM
             reader.Read(buffer, 0, 1024);
 
             _mARecord = new ARecord();
-            _mARecord.name = ParseString(buffer, 0, 40).ToCharArray();
+            _mARecord.file_name = ParseString(buffer, 0, 40).ToCharArray();
+            _mARecord.free_text_format = ParseString(buffer, 40, 40).ToCharArray();
             _mARecord.SE_geographic_corner_S = ParseString(buffer, 109, 13).ToCharArray();
             _mARecord.SE_geographic_corner_E = ParseString(buffer, 122, 13).ToCharArray();
             _mARecord.process_code = buffer[135];
@@ -189,20 +200,55 @@ namespace USGS.DEM
     public class ARecord
     {
         /// <summary>
-        /// Description Name of the represented area
+        /// The authorized digital cell name followed by a comma, space, and the two-character State designator(s) separated by hyphens.
+        /// Abbreviations for other countries, such as Canada and Mexico, shall not be represented in the DEM header.
         /// </summary>
-        public char[] name = new char[40];
+        public char[] file_name = new char[40];
         /// <summary>
-        /// Southing of the Southeast geographic corner
+        /// Free format descriptor field, contains useful information related to digital process such as digitizing instrument, photo codes, slot widths, etc.
+        /// </summary>
+        public char[] free_text_format = new char[40];
+        /// <summary>
+        /// Southing of the southeast geographic corner
+        /// SE geographic quadrangle corner ordered as:
+        ///     x = Longitude = SDDDMMSS.SSSS
+        ///     y = Latitude = SDDDMMSS.SSSS
+        /// (neg sign (S) right justified, no leading zeroes, plus sign (S) implied)
         /// </summary>
         public char[] SE_geographic_corner_S = new char[13];
         /// <summary>
         /// Easting of the southeast geographic corner
+        /// SE geographic quadrangle corner ordered as:
+        ///     x = Longitude = SDDDMMSS.SSSS
+        ///     y = Latitude = SDDDMMSS.SSSS
+        /// (neg sign (S) right justified, no leading zeroes, plus sign (S) implied)
         /// </summary>
         public char[] SE_geographic_corner_E = new char[13];
+        /// <summary>
+        /// 1=Autocorrelation RESAMPLE Simple bilinear
+        /// 2=Manual profile GRIDEM Simple bilinear
+        /// 3=DLG/hypsography CTOG 8-direction linear
+        /// 4=Interpolation from photogrammetric system contours DCASS 4-direction linear
+        /// 5=DLG/hypsography LINETRACE, LT4X Complex linear
+        /// 6=DLG/hypsography CPS-3, ANUDEM, GRASS Complex polynomial
+        /// 7=Electronic imaging (non-photogrametric), active or passive, sensor systems.
+        /// </summary>
         public char process_code;
+        /// <summary>
+        /// Free format Mapping Origin Code. Example: MAC, WMC, MCMC, RMMC, FS, BLM, CONT (contractor), XX (state postal code).
+        /// </summary>
         public char[] origin_code = new char[4];
+        /// <summary>
+        /// Code 1=DEM-1
+        /// 2=DEM-2
+        /// 3=DEM-3
+        /// 4=DEM-4
+        /// </summary>
         public int dem_level_code;
+        /// <summary>
+        /// 1 = regular
+        /// 2 = random
+        /// </summary>
         public int elevation_pattern;
         public int ground_ref_system;
         public int ground_ref_zone;

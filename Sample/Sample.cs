@@ -40,6 +40,9 @@ namespace Sample
                         {
                             int ratio = (int)(((height - min) / (max - min)) * 255f);
                             bitmap.SetPixel(row, col, Color.FromArgb(128, ratio, 128));
+
+                            // Or this, as suggested by thanaphan4 for fixing bitmap x/y orientation
+                            // bitmap.SetPixel(col, _mDem.ARecord.northings_rows - row - 1, Color.FromArgb(128, 128, ratio));
                         }
                     }
                 }
@@ -66,7 +69,7 @@ namespace Sample
                     _mDem = new DemDocument();
                     _mDem.Read(dialog.FileName);
                     txtOutput.Text = string.Empty;
-                    txtOutput.Text += "DEM Name: " + new string(_mDem.ARecord.name) + Environment.NewLine;
+                    txtOutput.Text += "DEM Name: " + new string(_mDem.ARecord.file_name) + Environment.NewLine;
                     txtOutput.Text += "SE Coord: " + new string(_mDem.ARecord.SE_geographic_corner_S) + ", " + new string(_mDem.ARecord.SE_geographic_corner_E) + Environment.NewLine;
                     txtOutput.Text += "DEM Level Code: " + _mDem.ARecord.dem_level_code + Environment.NewLine;
                     txtOutput.Text += "Ground Reference System: " + (GROUND_REF_SYSTEM)_mDem.ARecord.ground_ref_system + Environment.NewLine;
