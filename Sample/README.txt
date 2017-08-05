@@ -1,1 +1,0 @@
-To get DEM files for testing, visit http://www.geobase.ca/geobase/en/data/cded/index.html
