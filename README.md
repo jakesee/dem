@@ -12,6 +12,7 @@ The project builds into a class library with example applications.
 
 ## Sample Application
 A sample application is included to demostrate the usage and use the DEM data to draw a color coded height map.
+
 ![](https://github.com/jakesee/dem/blob/master/docs/resources/sample_exe.png)
 
 ### Basic Usage
@@ -20,5 +21,5 @@ A sample application is included to demostrate the usage and use the DEM data to
     dem.read("022k13_0300_deme.dem");
 
 ### Sample DEM files
-To get DEM files for testing, please visit http://www.geobase.ca/geobase/en/data/cded/index.html
+To get DEM files for testing, please visit https://dds.cr.usgs.gov/pub/data/DEM/250/. Please Also see wikipedia entry for [USGS DEM](https://en.wikipedia.org/wiki/USGS_DEM) for alternative sources if the above does not work.
 
