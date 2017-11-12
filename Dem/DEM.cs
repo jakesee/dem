@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace USGS.DEM
+namespace Braincase.USGS.DEM
 {
     public enum GROUND_REF_SYSTEM { Geographic = 0, UTM, StatePlane };
     public enum GROUND_UNIT { Radian = 0, Feet, Meters, ArcSeconds };

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using USGS.DEM;
+using Braincase.USGS.DEM;
 
 namespace Sample
 {
